@@ -1,27 +1,26 @@
-document.getElementById('feedbackForm').addEventListener('submit', function(event) {
-    event.preventDefault(); // Предотвращаем отправку формы по умолчанию
+document.getElementById('feedbackForm').onsubmit = function(event) {
+    event.preventDefault(); // Отключить переход на другую страницу
 
-    var email = document.getElementById('email').value;
-    var comment = document.getElementById('comment').value;
+    let email = document.getElementById('email').value;
+    let comment = document.getElementById('comment').value;
 
-    // Проверка вводимых данных
-    var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    
-    if (!email.match(emailPattern) || email === '' || comment === '') {
-        console.log('Некорректные данные');
-        // Отображение сообщения об ошибке
-        alert('Пожалуйста, заполните все обязательные поля корректно.');
-        return;
+    if (email.trim() === '' || comment.trim() === '') {
+        console.log('Please fill in all the required fields');
+        return false;
     }
 
-    // Отображение данных в консоль
-    console.log('Email:', email);
-    console.log('Comment:', comment);
+    // Проверка на корректность имейла
+    if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email) && !/^\d{10}$/.test(email)) {
+        console.log('Please enter a valid email address');
+        alert('Please fill in all required fields correctly.'); // Сообщение, что данные введены некорректно от Bootstrap Modal Dialog
+        return false;
+    }
 
-    // Отображение сообщения об успешной обработке
-    alert('Данные успешно отправлены!');
+    console.log('Email: ' + email);
+    console.log('Comment: ' + comment);
 
-    // Очищаем поля формы после отправки
-    document.getElementById('email').value = '';
-    document.getElementById('comment').value = '';
-});
+    //  Сообщение, что данные введены корректно от Bootstrap Modal Dialog
+    alert('Form submitted successfully!');
+
+    return false;
+};
